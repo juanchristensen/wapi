@@ -1,5 +1,5 @@
 var apiClient = require('./api-client');
-
+var serialize = require('form-serialize');
 
 exports.autoInitForms = function(){
 	var formsWrappers = document.querySelectorAll('.wapi-form-wrapper');
