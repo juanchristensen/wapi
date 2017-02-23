@@ -21,10 +21,12 @@ exports.autoInitForms = function(){
 				var element = e.target.elements[elementIndex];
 				var elementName = element.name;
 				
-				for (var fileIndex = 0; fileIndex < element.files.length; fileIndex++) {
+				if (element.type === 'file' && elementName !== '') {
+					for (var fileIndex = 0; fileIndex < element.files.length; fileIndex++) {
 					var file = element.files[fileIndex];
 					var fileName = elementName + "-" + fileIndex;
 					files[fileName] = file;
+				}
 				}
 			}
 
