@@ -1,0 +1,23 @@
+{
+  "name": "wapi",
+  "version": "1.0.13",
+  "main": "index.js",
+  "description": "WAPI is a middleware generator for express that make the common tasks in an API (REST, emails, etc .. ) easier",
+  "scripts": {
+    "commpatch": "git commit -am 'new patch' && npm run patch",
+    "patch": "npm version patch -m 'patch'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "browserify": "^13.0.1",
+    "cors": "^2.7.1",
+    "dropzone": "^4.3.0",
+    "form-serialize": "^0.7.1",
+    "lodash": "^4.13.1",
+    "multiparty": "^4.1.2",
+    "router": "^1.1.4",
+    "whatwg-fetch": "^1.0.0"
+  }
+}
