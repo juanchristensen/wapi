@@ -15,10 +15,23 @@ exports.autoInitForms = function(){
 			e.preventDefault();
 
 			var obj = serialize(e.target, { hash: true });
+			var files = {};
+
+			for (var elementIndex = 0; elementIndex < e.target.elements.length; elementIndex++) {
+				var element = e.target.elements[elementIndex];
+				var elementName = element.name;
+				
+				for (var fileIndex = 0; fileIndex < element.files.length; fileIndex++) {
+					var file = element.files[fileIndex];
+					var fileName = elementName + "-" + fileIndex;
+					files[fileName] = file;
+				}
+			}
 
       return apiClient.submitForm({
 				name:formName,
-				body:obj
+				body:obj,
+            	files:files
 			}).then(function(){
 				formDone.style.display = 'block';
 				form.style.display = 'none';
