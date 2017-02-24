@@ -2,20 +2,24 @@ var Router = require('router');
 var cors = require('cors');
 var fs = require('fs');
 var _ = require('lodash');
+var _api = require('./helpers/_api');
 var Router = require('router');
 
-var defaultOptions = {
-	prefix:'/api/v1',
+
+var defaultAPIOptions = {
+  prefix:'/api/v1',
 }
 
 module.exports = function(api, apiOptions){
 	var router = Router();
-	apiOptions = _.defaults(apiOptions, defaultOptions);
+
+	apiOptions = _.defaults(apiOptions, defaultAPIOptions);
 
 	// midds
 	router.use(cors());
-	router.use(require('./helpers/resolveURLOrigin'));
-	router.use(require('./helpers/apiVars')(apiOptions));
+	router.use(require('./helpers/resolveBasePath'));
+	router.use(_api(apiOptions))
+
 	router.use(require('./legacy-support'));
 
 	// endpoints

@@ -1,6 +1,5 @@
 module.exports = function(req,res,next){
-  if(!process.env.HOSTNAME){
-
+  if(!process.env.BASE_PATH){
     console.log('### process.env.BASE_PATH does not exists. resolving hostname automatically');
     process.env = process.env || {};
 

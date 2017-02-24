@@ -1,14 +1,51 @@
 {
-  "name": "wapi",
-  "version": "1.0.13",
-  "main": "index.js",
-  "description": "WAPI is a middleware generator for express that make the common tasks in an API (REST, emails, etc .. ) easier",
-  "scripts": {
-    "commpatch": "git commit -am 'new patch' && npm run patch",
-    "patch": "npm version patch -m 'patch'"
+  "_args": [
+    [
+      {
+        "raw": "wapi",
+        "scope": null,
+        "escapedName": "wapi",
+        "name": "wapi",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/juanchoc/Desktop/Credility/test"
+    ]
+  ],
+  "_from": "wapi@latest",
+  "_id": "wapi@1.0.41",
+  "_inCache": true,
+  "_location": "/wapi",
+  "_nodeVersion": "7.0.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/wapi-1.0.41.tgz_1482946234419_0.3031697159167379"
   },
+  "_npmUser": {
+    "name": "qzapaia",
+    "email": "qzapaia@gmail.com"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "wapi",
+    "scope": null,
+    "escapedName": "wapi",
+    "name": "wapi",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "http://registry.npmjs.org/wapi/-/wapi-1.0.41.tgz",
+  "_shasum": "f4bcebcdc00302ebcdbd37b2dabdecc62f6f6ffc",
+  "_shrinkwrap": null,
+  "_spec": "wapi",
+  "_where": "/Users/juanchoc/Desktop/Credility/test",
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
     "browserify": "^13.0.1",
@@ -16,8 +53,35 @@
     "dropzone": "^4.3.0",
     "form-serialize": "^0.7.1",
     "lodash": "^4.13.1",
+    "memory-cache": "^0.1.6",
     "multiparty": "^4.1.2",
     "router": "^1.1.4",
+    "uglifyify": "^3.0.4",
     "whatwg-fetch": "^1.0.0"
-  }
+  },
+  "description": "WAPI is a middleware for connect/express that make the common tasks in an API easier.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "f4bcebcdc00302ebcdbd37b2dabdecc62f6f6ffc",
+    "tarball": "https://registry.npmjs.org/wapi/-/wapi-1.0.41.tgz"
+  },
+  "gitHead": "2ecdeb581d1d00c09d05389aa15a7e3305577dbe",
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "qzapaia",
+      "email": "qzapaia@gmail.com"
+    }
+  ],
+  "name": "wapi",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "commpatch": "git commit -am 'new patch' && npm run patch",
+    "patch": "npm version patch -m 'patch'",
+    "up": "npm run commpatch && git push origin master && npm publish"
+  },
+  "version": "1.0.41"
 }

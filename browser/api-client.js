@@ -2,7 +2,8 @@ require('whatwg-fetch');
 var serialize = require('form-serialize');
 var _ = {
 	defaults:require('lodash/defaults'),
-	forIn:require('lodash/forIn')
+	forIn:require('lodash/forIn'),
+	pick:require('lodash/pick')
 }
 
 
@@ -16,35 +17,40 @@ var config = _.defaults(window._wapiConfigFromServer || {},{
 });
 
 var jsonFetch = function(url,options){
+	options = options || {};
   var fullURL = config.baseURL + url;
-	var localStorageValuesToInclude = ['id_token','acccess_token'];
 
-	var defaultHeaders = {
+	// headers
+	var contentTypeHeaders = options.multipart ? {} : {
 		'Content-Type': 'application/json'
 	}
 
-	localStorageValuesToInclude.forEach(function(name){
-		if(localStorage.getItem(name)){ defaultHeaders[name] = localStorage.getItem(name); }
+	var localStorageTokens = _.pick(localStorage,['id_token','access_token']);
+	var authorizationHeaders = {};
+	if(localStorageTokens.access_token){
+		authorizationHeaders['Authorization'] = 'Bearer ' + localStorageTokens.access_token;
+	}
+
+	options = _.defaults(options, {
+		headers:new Headers(_.defaults(localStorageTokens,contentTypeHeaders,authorizationHeaders))
 	});
 
-	var newOptions = _.defaults(options, {
-		headers:new Headers(defaultHeaders)
-	});
+	if(!options.multipart){
+		options.body = options.body && JSON.stringify(options.body);
+	}
 
-	newOptions.body = newOptions.body && JSON.stringify(newOptions.body);
-
-	return fetch(fullURL, newOptions).then(function(res){
-    var json = res.json();
+	return fetch(fullURL, options).then(function(res){
+    var jsonPromise = res.json();
 		if(res.status >= 400){
-      throw json;
+      throw jsonPromise;
     }else{
-      return json;
+      return jsonPromise;
     }
   })
 }
 
 exports.submitForm = function(options){
-  var url = config.baseURL + '/' + options.name;
+  var url = '/' + options.name;
 	var body = new FormData();
 
 	_.forIn(options.body, function(value, key) {
@@ -54,8 +60,15 @@ exports.submitForm = function(options){
 		body.append(key,value);
 	});
 
-  return fetch(url,{
+  return jsonFetch(url,{
     method: 'POST',
-    body:body
+    body:body,
+		multipart:true
   });
 }
+
+exports.getResource = function(options){
+  var url = options.resourcePath;
+  return jsonFetch(url);
+}
+exports.jsonFetch = jsonFetch;

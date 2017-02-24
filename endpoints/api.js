@@ -2,7 +2,9 @@ var bodyParser = require('body-parser');
 var Router = require('router');
 var _ = require('lodash');
 var multimiddHelper = require('../helpers/multipart-middleware.js');
-
+var url = require('url');
+var cache = require('memory-cache');
+var devEnv = process.env.NODE_ENV == 'development';
 
 var getAccessToken = function(req){
   var headerToken = req.headers.authorization && req.headers.authorization.split('Bearer ')[1];
@@ -23,36 +25,59 @@ module.exports = function(api){
   router.use(bodyParser.json({limit: '50mb'}))
   router.use(multimiddHelper());
 
-
   router.use(function(req,res,next){
     var methodName = _.camelCase(req.method + '-' + req.params.resource);
+    var referer = null;
+    var cacheKey = req.method + req.originalUrl;
+
+    if(req.headers.referer){
+      referer = url.parse(req.headers.referer);
+      referer.origin = referer.protocol + '//' + referer.host;
+    }
 
     var options = _.chain(req)
                    .pick(['body', 'files', 'headers', 'query'])
-                   .defaults({
+                   .assign({
+                      referer:referer,
                       payload:req.body,
                       resourceName:req.params.resource,
                       id:req.params.id,
                       access_token:getAccessToken(req),
-                      options:req.query
+                      options:req.query,
+                      baseURL:req._api.baseURL
                    })
                    .value();
+
+    // response time
+    if(req.method == 'GET' && cache.get(cacheKey)){
+      console.log('response from cache ',cacheKey);
+      res.json(cache.get(cacheKey));
+      return;
+    }
 
     var promise = api[methodName] && api[methodName](options);
 
     if(promise && promise.then){
-      promise = promise.then(function(success){
-        res.json(success)
+      promise = promise.then(function(response){
+        if(response.redirect){
+          res.redirect(response.redirect,307);
+        }else{
+          cache.put(cacheKey, response, devEnv ? 3000 : 500);
+          console.log('response from promise',cacheKey)
+          res.json(response);
+        }
       });
 
-      var failMethodName = promise.catch ? 'catch' : 'fail';
+      promise[promise.catch ? 'catch' : 'fail'](function(error){
+        error = error || {};
+        var status = error.status || 400;
+        var detail = error.detail || {};
 
-      promise[failMethodName](function(error){
-        error = _.defaults(error,{ status:400,data:{error:error.toString()} })
-        res.status(error.status).json(error.data);
+        res.status(status).json(detail);
       });
     }else{
       console.log('WAPI: method '+methodName+' doesn\'t return a Promise');
+      next();
     }
   });
 
