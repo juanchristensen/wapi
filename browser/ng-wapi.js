@@ -46,6 +46,10 @@ function getCookie(cname) {
     return "";
 }
 
+function eraseCookie(name) {
+    setCookie(name,"",-1);
+}
+
 angular.module('ngWapi',[])
 .run(['$rootScope',function($rootScope){
 	$rootScope.wLocation = {
@@ -56,6 +60,7 @@ angular.module('ngWapi',[])
 
 	$rootScope.logout = function(redirectTo){
 		localStorage.removeItem('access_token');
+		eraseCookie('access_token');
 		location.href = redirectTo;
 	}
 }])
