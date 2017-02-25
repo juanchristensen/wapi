@@ -4,7 +4,7 @@ var fs = require('fs');
 var _ = require('lodash');
 var _api = require('./helpers/_api');
 var cookieParser = require('cookie-parser');
-
+var compression = require('compression');
 
 var defaultAPIOptions = {
   prefix:'/api/v1',
@@ -16,6 +16,7 @@ module.exports = function(api, apiOptions){
 	apiOptions = _.defaults(apiOptions, defaultAPIOptions);
 
 	// midds
+	router.use(compression());
 	router.use(cookieParser());
 	router.use(cors());
 	router.use(require('./helpers/resolveBasePath'));
