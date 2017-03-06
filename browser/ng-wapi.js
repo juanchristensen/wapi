@@ -2,6 +2,8 @@ var apiClient = require('./api-client');
 var Dropzone = require('dropzone');
 var querystring = require("querystring");
 
+require('es6-promise').polyfill();
+
 window.wapiClient = apiClient;
 
 var _ = {
