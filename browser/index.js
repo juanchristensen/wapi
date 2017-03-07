@@ -82,7 +82,7 @@ exports.autoInitForms = function () {
 
         })
     });
-}
+};
 
 exports.apiClient = apiClient;
 

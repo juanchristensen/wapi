@@ -7,8 +7,8 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 
 var defaultAPIOptions = {
-  prefix:'/api/v1',
-}
+  prefix:'/api/v1'
+};
 
 module.exports = function(api, apiOptions){
 	var router = Router();
@@ -20,7 +20,7 @@ module.exports = function(api, apiOptions){
 	router.use(cookieParser());
 	router.use(cors());
 	router.use(require('./helpers/resolveBasePath'));
-	router.use(_api(apiOptions))
+	router.use(_api(apiOptions));
 
 	router.use(require('./legacy-support'));
 

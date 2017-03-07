@@ -16,13 +16,13 @@ var getAccessToken = function(req){
   }else{
     return null;
   }
-}
+};
 
 module.exports = function(api){
 
   var router = Router({mergeParams: true});
 
-  router.use(bodyParser.json({limit: '50mb'}))
+  router.use(bodyParser.json({limit: '50mb'}));
   router.use(multimiddHelper());
 
   router.use(function(req,res,next){
@@ -63,7 +63,7 @@ module.exports = function(api){
           res.redirect(response.redirect,307);
         }else{
           cache.put(cacheKey, response, devEnv ? 3000 : 500);
-          console.log('response from promise',cacheKey)
+          console.log('response from promise',cacheKey);
           res.json(response);
         }
       });
@@ -82,4 +82,4 @@ module.exports = function(api){
   });
 
   return router;
-}
+};

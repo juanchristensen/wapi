@@ -17,9 +17,9 @@ module.exports = [function(req,res,next){
 		res.write = function(chunk){
 			body.push(chunk);
 			wr.call(res,chunk);
-		}
+		};
 		res.on('finish',function(){
-			cache.put(cacheKey, body.join(''))
+			cache.put(cacheKey, body.join(''));
 		});
 		next();
 	}

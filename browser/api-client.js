@@ -4,8 +4,7 @@ var _ = {
 	defaults:require('lodash/defaults'),
 	forIn:require('lodash/forIn'),
 	pick:require('lodash/pick')
-}
-
+};
 
 if(!window._wapiConfigFromServer){
 	console.warn('_wapiConfigFromServer is not present. This could generate problems 😳');
@@ -23,7 +22,7 @@ var jsonFetch = function(url,options){
 	// headers
 	var contentTypeHeaders = options.multipart ? {} : {
 		'Content-Type': 'application/json'
-	}
+	};
 
 	var localStorageTokens = _.pick(localStorage,['id_token','access_token']);
 	var authorizationHeaders = {};
@@ -47,7 +46,7 @@ var jsonFetch = function(url,options){
       return jsonPromise;
     }
   })
-}
+};
 
 exports.submitForm = function(options){
   var url = '/' + options.name;
@@ -65,10 +64,10 @@ exports.submitForm = function(options){
     body:body,
 		multipart:true
   });
-}
+};
 
 exports.getResource = function(options){
   var url = options.resourcePath;
   return jsonFetch(url);
-}
+};
 exports.jsonFetch = jsonFetch;

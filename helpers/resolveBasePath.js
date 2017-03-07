@@ -6,4 +6,4 @@ module.exports = function(req,res,next){
     process.env.BASE_PATH = (req.secure ? 'https://' : 'http://') + req.headers.host;
   }
   next();
-}
+};
