@@ -25,14 +25,6 @@ try {
     }
 }
 
-if (typeof Array.prototype.forEach !== 'function') {
-    Array.prototype.forEach = function(callback, context) {
-        for (var i = 0; i < this.length; i++) {
-            callback.apply(context, [ this[i], i, this ]);
-        }
-    };
-}
-
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -85,7 +77,9 @@ angular.module('ngWapi', [])
                 scope._dz = {};
                 var fileEls = el[0].querySelectorAll('[file]');
 
-                fileEls.forEach(function (el) {
+                for (var elIdx=0; elIdx<fileEls.length; elIdx++) {
+                    var el = fileEls[elIdx];
+
                     var name = el.getAttribute('name');
                     if (!name) {
                         throw ('name attribute is required in ' + el);
@@ -102,9 +96,7 @@ angular.module('ngWapi', [])
                             });
                         }
                     });
-
-                });
-
+                }
             },
             controller: ['$scope', '$attrs', function ($scope, $attrs) {
                 var formName = $attrs.wForm;

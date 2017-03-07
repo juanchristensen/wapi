@@ -4,7 +4,9 @@ var serialize = require('form-serialize');
 exports.autoInitForms = function () {
     var formsWrappers = document.querySelectorAll('.wapi-form-wrapper');
 
-    formsWrappers.forEach(function (formWrapper) {
+    for (var formWrapperIdx=0; formWrapperIdx<formsWrappers.length; formWrapperIdx++) {
+        var formWrapper = formsWrappers[formWrapperIdx];
+
         var form = formWrapper.querySelector('.wapi-form');
         var formDone = formWrapper.querySelector('.wapi-form-done');
         var formFail = formWrapper.querySelector('.wapi-form-fail');
@@ -56,14 +58,15 @@ exports.autoInitForms = function () {
                 formSubmit.value = formDefault;
                 form.reset();
 
-                formInputLabels.forEach(function (formLabel) {
+                for (var formInputLabelIdx=0; formInputLabelIdx<formInputLabels.length; formInputLabelIdx++) {
+                    var formLabel = formInputLabels[formInputLabelIdx];
+
                     var formLabelDefault = formLabel.getAttribute('data-label-default');
 
                     if (typeof formLabelDefault !== 'undefined') {
                         formLabel.textContent = formLabelDefault;
                     }
-                });
-
+                }
             }).catch(function () {
                 if (shouldHideForm) {
                     form.style.display = 'none';
@@ -81,7 +84,7 @@ exports.autoInitForms = function () {
 
 
         })
-    });
+    }
 };
 
 exports.apiClient = apiClient;
