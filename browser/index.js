@@ -2,36 +2,36 @@ var apiClient = require('./api-client');
 var serialize = require('form-serialize');
 
 exports.autoInitForms = function () {
-    var formsWrappers = document.querySelectorAll('.wapi-form-wrapper');
+    const formsWrappers = document.querySelectorAll('.wapi-form-wrapper');
 
     for (var formWrapperIdx=0; formWrapperIdx<formsWrappers.length; formWrapperIdx++) {
-        var formWrapper = formsWrappers[formWrapperIdx];
+        const formWrapper = formsWrappers[formWrapperIdx];
 
-        var form = formWrapper.querySelector('.wapi-form');
-        var formDone = formWrapper.querySelector('.wapi-form-done');
-        var formFail = formWrapper.querySelector('.wapi-form-fail');
-        var formName = formWrapper.getAttribute('data-form-name');
-        var formSubmit = formWrapper.querySelector('.wapi-form-submit');
-        var formWait = formWrapper.getAttribute('data-form-wait');
-        var formDefault = formSubmit.value;
-        var formInputLabels = formWrapper.querySelectorAll('.wapi-form-input-label');
+        const form = formWrapper.querySelector('.wapi-form');
+        const formDone = formWrapper.querySelector('.wapi-form-done');
+        const formFail = formWrapper.querySelector('.wapi-form-fail');
+        const formName = formWrapper.getAttribute('data-form-name');
+        const formSubmit = formWrapper.querySelector('.wapi-form-submit');
+        const formWait = formWrapper.getAttribute('data-form-wait');
+        const formDefault = formSubmit.value;
+        const formInputLabels = formWrapper.querySelectorAll('.wapi-form-input-label');
 
-        var shouldHideForm = formWrapper.classList.contains('wapi-autohideform');
+        const shouldHideForm = formWrapper.classList.contains('wapi-autohideform');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            var obj = serialize(e.target, {hash: true});
-            var files = {};
+            const obj = serialize(e.target, {hash: true});
+            const files = {};
 
             for (var elementIndex = 0; elementIndex < e.target.elements.length; elementIndex++) {
-                var element = e.target.elements[elementIndex];
-                var elementName = element.name;
+                const element = e.target.elements[elementIndex];
+                const elementName = element.name;
 
                 if (element.type === 'file' && elementName !== '') {
                     for (var fileIndex = 0; fileIndex < element.files.length; fileIndex++) {
-                        var file = element.files[fileIndex];
-                        var fileName = elementName + "-" + fileIndex;
+                        const file = element.files[fileIndex];
+                        const fileName = elementName + "-" + fileIndex;
                         files[fileName] = file;
                     }
                 }
@@ -59,9 +59,9 @@ exports.autoInitForms = function () {
                 form.reset();
 
                 for (var formInputLabelIdx=0; formInputLabelIdx<formInputLabels.length; formInputLabelIdx++) {
-                    var formLabel = formInputLabels[formInputLabelIdx];
+                    const formLabel = formInputLabels[formInputLabelIdx];
 
-                    var formLabelDefault = formLabel.getAttribute('data-label-default');
+                    const formLabelDefault = formLabel.getAttribute('data-label-default');
 
                     if (typeof formLabelDefault !== 'undefined') {
                         formLabel.textContent = formLabelDefault;
